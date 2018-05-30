@@ -1,21 +1,21 @@
-var athlete = ["Lebron James", "Tony Romo", "Allen Iverson", "Emmitt Smith"]
+var athlete = ["Lebron James", "Mike Trout", "Allen Iverson", "Shaq", "Bryce Harper", "Freddie Freeman"]
+
 
 
 function renderButtons() {
 
     $("#athlete-buttons").empty();
 
-    // Looping through the array of movies
     for (i = 0; i < athlete.length; i++) {
 
         var button = $("<button>");
-        // Adding a class
+
         button.addClass("athlete");
-        // Adding a data-attribute with a value of the movie at index i
+
         button.attr("data-athlete", athlete[i]);
-        // Providing the button's text with a value of the movie at index i
+
         button.text(athlete[i]);
-        // Adding the button to the HTML
+
         $("#athlete-buttons").append(button);
     }
 }
@@ -24,15 +24,24 @@ function renderButtons() {
 $("#add-athlete").on("click", function (event) {
     event.preventDefault();
 
-    var newAthlete = $("#athlete-input").val().trim();
-    athlete.push(newAthlete);
+    if ($("#athlete-input").val().trim() === "") {
+        return;
+    }
+    else {
+        var newAthlete = $("#athlete-input").val().trim();
+        athlete.push(newAthlete);
 
-    renderButtons();
+        renderButtons();
+    }
+
+
 });
 
-renderButtons();
 
-$("button").on("click", function () {
+
+function displayAthleteGif() {
+
+
     var newAthlete = $(this).attr("data-athlete");
     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
         newAthlete + "&api_key=GyQSGSgJ5s08agB8yMd1Q6bWfG7qnH8s&limit=10";
@@ -49,12 +58,33 @@ $("button").on("click", function () {
                 var athleteDiv = $("<div>");
                 var rating = $("<p>").text("Rating: " + results[i].rating);
                 var athleteImage = $("<img>");
-                athleteImage.attr("src", results[i].images.fixed_height.url);
+                athleteImage.addClass("athlete-img");
+                athleteImage.attr("src", results[i].images.fixed_height_still.url);
+                athleteImage.attr("data-still", results[i].images.fixed_height_still.url);
+                athleteImage.attr("data-animate", results[i].images.fixed_height.url);
+                athleteImage.attr("data-state", "still");
                 athleteDiv.append(rating);
                 athleteDiv.append(athleteImage);
 
-                // Prependng the animalDiv to the HTML page in the "#gifs-appear-here" div
-                $("#athlete").prepend(athleteDiv);
+
+                $("#athlete").append(athleteDiv);
             }
         });
-});
+};
+
+
+function startStopGif() {
+    var state = $(this).attr("data-state");
+
+    if (state === "still") {
+        $(this).attr("src", $(this).attr("data-animate"));
+        $(this).attr("data-state", "animate");
+    } else {
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still");
+    }
+};
+
+$(document).on("click", ".athlete", displayAthleteGif);
+$(document).on("click", ".athlete-img", startStopGif);
+renderButtons();
