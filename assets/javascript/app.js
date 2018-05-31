@@ -23,13 +23,20 @@ function renderButtons() {
 
 $("#add-athlete").on("click", function (event) {
     event.preventDefault();
+    var addAthlete = $("#athlete-input").val().trim();
+    for (i = 0; i < athlete.length; i++) {
+        athlete[i].toLowerCase();
+        if (athlete[i].toLowerCase() === addAthlete.toLowerCase()) {
+            return;
+        }
+    }
 
-    if ($("#athlete-input").val().trim() === "") {
+
+    if (addAthlete === "") {
         return;
     }
     else {
-        var newAthlete = $("#athlete-input").val().trim();
-        athlete.push(newAthlete);
+        athlete.push(addAthlete);
 
         renderButtons();
     }
@@ -40,7 +47,8 @@ $("#add-athlete").on("click", function (event) {
 
 
 function displayAthleteGif() {
-
+    $(".athlete-img").remove();
+    $(".gif-rating").remove();
 
     var newAthlete = $(this).attr("data-athlete");
     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
@@ -55,16 +63,17 @@ function displayAthleteGif() {
             var results = response.data;
             for (i = 0; i < results.length; i++) {
 
-                var athleteDiv = $("<div>");
                 var rating = $("<p>").text("Rating: " + results[i].rating);
+                rating.addClass("gif-rating");
+                var athleteDiv = $("<div>");
                 var athleteImage = $("<img>");
                 athleteImage.addClass("athlete-img");
                 athleteImage.attr("src", results[i].images.fixed_height_still.url);
                 athleteImage.attr("data-still", results[i].images.fixed_height_still.url);
                 athleteImage.attr("data-animate", results[i].images.fixed_height.url);
                 athleteImage.attr("data-state", "still");
-                athleteDiv.append(rating);
                 athleteDiv.append(athleteImage);
+                athleteDiv.append(rating);
 
 
                 $("#athlete").append(athleteDiv);

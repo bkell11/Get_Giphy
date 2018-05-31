@@ -1,0 +1,23 @@
+.athlete{
+    margin: 10px;
+    background-color: black;
+    border-color: black;
+    color: yellow;
+}
+
+#athlete-form{
+    margin-top: 30px;
+    margin-left: 15px;
+    color: yellow;
+}
+
+#add-athlete{
+    margin-top: 40px;
+    background-color: black;
+    border-color: black;
+    color: yellow;
+}
+
+body{
+    background-color: #4e024e;
+}
