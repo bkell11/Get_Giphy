@@ -1,4 +1,4 @@
-var athlete = ["Lebron James", "Mike Trout", "Allen Iverson", "Shaq", "Bryce Harper", "Freddie Freeman"]
+var athlete = ["Lebron James", "Mike Trout", "Allen Iverson", "Shaq", "Bryce Harper", "Freddie Freeman", "Donovan Mitchell", "Chipper Jones", "Lionel Messi", "Michael Jordan", "Larry Bird", "Dez Bryant", "Kobe Bryant", "Magic Johnson"]
 
 
 
